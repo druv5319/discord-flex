@@ -38,13 +38,13 @@ async function createParticipant(conversationSid, userId) {
         .create({identity: identity});
 }
 async function createScopedWebhooks(conversationSid, userId) {
-    // Triggers Studio flow to create new Conversation
+    // Triggers Studio flow to route the new Conversation to Flex
     await client.conversations.conversations(conversationSid).webhooks.create({
             'configuration.filters': 'onMessageAdded',
             target: 'studio',
             'configuration.flowSid': process.env.STUDIO_FLOW_SID
         });
-    // Triggers /newMessage route on server whenever a message is added to the Conversation
+    // Triggers /newMessage route on this server whenever a message is added to the Conversation
     await client.conversations.conversations(conversationSid).webhooks.create({
             target: 'webhook',
             'configuration.filters': ['onMessageAdded'],
